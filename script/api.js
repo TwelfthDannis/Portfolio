@@ -2,56 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
     GetSupaBase()
 })
 
-/*
-function GetGitHub() {
-    const accessToken = "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";
-
-    return new Promise((resolve, reject) => {
-        fetch("https://api.github.com/user/repos", {
-            method: "GET",
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                "Content-Type": `application/json`
-            }
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (Array.isArray(data)) {
-                    const formattedData = data.map(repo => {
-                        const {name, html_url, homepage} = repo;
-                        return {
-                            name,
-                            html_url,
-                            homepage
-                        };
-                    });
-                    resolve(formattedData);
-                } else {
-                    reject(new Error("Data is not an array"));
-                }
-            })
-            .catch(err => {
-                reject(err);
-            });
-    });
-}
-
-// Используем GetGitHub как промис
-GetGitHub()
-    .then(apiData => {
-        console.log(apiData);
-    })
-    .catch(error => {
-        console.error(error, "Error");
-    });
-*/
-
-
 const RepoAndFilter= {}
 function GetSupaBase() {
     document.querySelector('.filter_list').addEventListener('change', () => {
@@ -130,27 +80,23 @@ const filterLang = new Set();
 
 const filter = language => {
     language.split(', ').forEach(lang => filterLang.add(lang));
-    const addFilter= document.querySelector(".filter_list")
+    const addFilter = document.querySelector(".filter_list")
     addFilter.innerHTML = "";
     Array.from(filterLang).forEach(lang => {
         const li = document.createElement("li");
         li.innerHTML = `
-            <label class="name_lang">${lang}
-                <input type="checkbox"/>
-            </label>
-        `;
+            <label class="name_lang">${lang}<input type="checkbox"/></label>`;
         addFilter.appendChild(li);
     });
 }
 
-
-const filterReposByLanguage = (selectedLanguages) => {
+const filterReposByLanguage = selectedLanguages => {
     const repoItems = document.querySelectorAll('.repo .repo_item');
     repoItems.forEach(repoItem => {
         const id = repoItem.classList[1].replace('repo_item_', '');
         const languages = RepoAndFilter[id] || '';
         const repoLanguages = languages.split(', ').map(lang => lang.trim());
         const isVisible = selectedLanguages.length === 0 || selectedLanguages.some(lang => repoLanguages.includes(lang));
-        repoItem.style.display = isVisible ? 'block' : 'none';
+        repoItem.style.display = isVisible ? 'flex' : 'none';
     });
 };
