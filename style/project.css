@@ -1,188 +1,191 @@
 
-
-
-
-.filter_btn{
-    position: absolute;
-    color: var(--light-light);
-    background: var(--light-dark);
-    z-index: 1;
-    padding: 8px;
-    border-radius: 10px;
-    top: 10px;
-    left: 10px;
-    display: none;
-}
-
 .project{
-    display: flex;
-    height: 100dvh;
-    position: relative;
+    min-height: 100dvh;
+    padding-block: 8px;
+    box-sizing: border-box;
 }
 
-.filter {
+.project_list{
+    justify-content: center;
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.item_project{
+    min-height: 20vh;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+    &:hover{
+        .project_name{
+            transform: translate(-50%,50%);
+            transition: transform .3s linear;
+        }
+        .project_front{
+            transform: translateY(0);
+        }
+        .project_back{
+            transform: translateY(0);
+        }
+        .project_link_github{
+            transform: translateY(0);
+        }
+        .project_divider{
+            opacity: 1;
+        }
+    }
+}
+
+.project_name{
+    pointer-events: none;
+    z-index: 1;
+    color: transparent;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size:7vw;
+    -webkit-text-stroke: 1px #333333;
+    font-weight: 500;
     position: absolute;
-    width: 10vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    transition: transform .3s linear .9s;
+}
+
+.project_link_website{
     height: 100%;
-    background: var(--light-dark);
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    width: 10%;
+    transform: translate(0, -50%);
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
+}
+
+.link_website{
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding-inline: 8px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    height: 100%;
+    background: var(--light-lightdark);
+    clip-path: polygon(0 0, 100% 0%, 75% 100%, 0% 100%);
+    transition: background-color .3s linear;
+    &:hover{
+        background: var(--light-grey);
+    }
 }
 
-.filter_list{
-    li{
-        position: relative;
+.project_background{
+    position: relative;
+    flex: 1;
+    width: 100%;
+    background-size: cover;
+    animation: project_back 20s linear infinite;
+}
+
+@keyframes project_back {
+    from{
+        background-position: bottom;
+    }
+    to{
+        background-position: top;
+    }
+}
+
+.project_info{
+    overflow: hidden;
+    display: flex;
+    gap: .5rem;
+    justify-content: center;
+    height: 20vh;
+    background: rgba(13, 13, 13, 0.9);
+}
+.project_front{
+    transition: transform .3s linear .3s;
+}
+.project_back{
+    transition: transform .3s linear .6s;
+}
+
+.project_link_github{
+    display: flex;
+    align-items: center;
+    transition: transform .3s linear .9s;
+}
+
+.link_github{
+    padding: .5rem;
+    border-radius: .5rem;
+    color: var(--light-light);
+    border:1px solid var(--light-light);
+    &:hover{
+        background: #333333;
+    }
+}
+
+.project_front, .project_back{
+    overflow-y: scroll;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.project_front, .project_back, .project_link_github{
+    transform: translateY(-100%);
+}
+
+.project_divider{
+    content: "";
+    width: 1px;
+    height: 100%;
+    background: var(--light-lightdark);
+    opacity: 0;
+    transition: opacity .6s linear ;
+}
+
+.tap_mobile{
+    display: none;
+    position: absolute;
+    right: 1%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    & path{
+        color: var(--light-light);
+    }
+}
+
+@media screen and (max-width:900px) {
+    .item_project:hover{
+        .project_name{
+            transform: translate(-50%,100%);
+        }
+    }
+    .project_name{
+        font-size: 15vw;
+    }
+    .project{
         padding: 8px;
     }
-    input{
-        visibility: hidden;
-        transform: translate(-50%,50%);
-        width: 100%;
-        left: 50%;
-        position: absolute;
+    .project_link_website{
+        width: 20%;
     }
-}
-
-.name_lang {
-    width: 100%;
-    font-size: large;
-    font-weight: 500;
-    color: var(--light-light);
-}
-
-.repo{
-    width: 1200px;
-    margin:auto;
-    height: 70dvh;
-    display: grid;
-    grid-template-columns: repeat(6,200px);
-    grid-template-rows: repeat(2,35vh);
-    grid-gap: 0.5rem;
-}
-
-.repo_item{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 8px;
-    background: var(--light-dark);
-    color: var(--light-light);
-    border-radius: 20px;
-    transition: box-shadow .3s linear ;
-    &:hover{
-        box-shadow: 0 0 10px black;
+    .link_website{
+        font-size: 3vw;
     }
-     path{
-        stroke: var(--light-light);
+    .project_front,.project_back,.link_github{
+        font-size: 3vw;
     }
-}
-
-.repo_name{
-    text-align: center;
-    font-weight: 500;
-}
-
-.divider{
-    margin-block: 8px;
-    height: 1px;
-    width: 100%;
-    background: var(--light-light);
-}
-
-.description{
-    display: flex;
-    height: 100%;
-    overflow: hidden;
-}
-
-.description_span{
-    padding-block: 8px;
-    flex: 1;
-    text-overflow: ellipsis;
-    overflow-wrap:anywhere;
- }
-
-.repo_link{
-    display: block;
-    gap: .5em;
-}
-
-.repo_review{
-    display: grid;
-    grid-template-rows: .5fr 1fr;
-    grid-gap: .5rem;
-    grid-column:5/span 2;
-    grid-row: 1/span 2;
-    padding: 8px;
-    border-radius: 20px;
-    background: var(--light-dark);
-}
-
-.review_screenshot{
-    color: var(--light-light);
-    object-fit: cover;
-    display: flex;
-    overflow: hidden;
-    border-radius: 20px;
-    min-width: 100%;
-}
-.screen{
-    flex: 1;
-    border: 2px solid var(--light-light);
-    border-radius: 20px;
-    width: 100%;
-}
-
-.review_description{
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-gap: .5rem;
-    height: 100%;
-    color: var(--light-light);
-    text-align: center;
-    overflow: hidden;
-}
-.work{
-    overflow: hidden;
-}
-.framework_name{
-    opacity: 1;
-    animation: opacity .3s linear;
-}
-.framework_list{
-    display: block;
-    text-align: start;
-    overflow-wrap: anywhere;
-    opacity: 1;
-    animation: opacity .3s linear;
-}
-
-@keyframes opacity { 0%{opacity: 0;} 100%{opacity: 1;} }
-
-@media  screen and (max-width: 900px){
-
-    .filter_btn{
+    .link_github{
+        padding: 0.4rem;
+    }
+    .tap_mobile:first-child{
         display: block;
-    }
-
-    .filter{
-        z-index: 1;
-        height: 100dvh;
-        width: 40vw;
-        transform: translateX(-100%);
-        transition: transform 0.3s linear;
-    }
-
-    .repo{
-        width: 90%;
-        overflow: hidden;
-        grid-template-rows: repeat(4,17vh);
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .repo_review{
-        display: none;
     }
 
 }

@@ -1,102 +1,73 @@
 document.addEventListener("DOMContentLoaded", function () {
-    GetSupaBase()
+    /*getRepositories()*/
 })
 
-const RepoAndFilter= {}
-function GetSupaBase() {
-    document.querySelector('.filter_list').addEventListener('change', () => {
-        const selectedLanguages = Array.from(document.querySelectorAll('.filter_list input[type="checkbox"]:checked'))
-            .map(checkbox => checkbox.parentElement.textContent.trim());
-        filterReposByLanguage(selectedLanguages);
-    });
 
-    fetch("https://pdamgupfeslxupniapku.supabase.co/rest/v1/repositories?select=*&order=id", {
-        method: "GET", headers: {
-            "apikey": `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkYW1ndXBmZXNseHVwbmlhcGt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDU4MTYyOTksImV4cCI6MjAyMTM5MjI5OX0.9YF1m5roAJciaXBtJNOp60DxBGvNHL50fahbKMv4jnU`,
-            "Content-Type": "application/json",
-        },
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data && data.length > 0) {
-                const repoContainer = document.querySelector('.repo');
-                data.forEach(({id,link_github, link_website, description, language, name}) => {
-                    const repoItem = document.createElement('div');
-                    repoItem.classList.add("repo_item",`repo_item_${id}`);
-                    repoItem.innerHTML = `
-                        <div class="repo_name">${name}</div>
-                        <div class="description">
-                            <span class="description_span">${description}</span>
-                        </div>
-                        <div class="repo_link">
-                            <a href="${link_github}" target="_blank">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 16 18">
-                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-                                </svg>
-                            </a>
-                            ${link_website ? `<a href="${link_website}" target="_blank">
-                                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.5 9.035a9.004 9.004 0 0 0-17 0m17 0c.324.928.5 1.926.5 2.965a8.988 8.988 0 0 1-.5 2.966m0-5.931h-17m0 0A8.987 8.987 0 0 0 3 12a8.99 8.99 0 0 0 .5 2.966m0 0a9.004 9.004 0 0 0 17 0m-17 0h17"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21c4.97-4.97 4.97-13.03 0-18-4.97 4.97-4.97 13.03 0 18z"/>
-                                </svg>
-                            </a>` : ''}`;
-                    filter(language)
-                    RepoAndFilter[id]=language
-                    repoContainer.appendChild(repoItem);
-                    repoItem.addEventListener("click", (event) => {
-                        review(description,language,id)
-                    });
-                });
-            } else {
-                console.error("Данные не найдены");
+async function getRepositories() {
+    try {
+        const response = await fetch("https://pdamgupfeslxupniapku.supabase.co/rest/v1/repositories?select=*", {
+            method: "GET",
+            headers: {
+                "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkYW1ndXBmZXNseHVwbmlhcGt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDU4MTYyOTksImV4cCI6MjAyMTM5MjI5OX0.9YF1m5roAJciaXBtJNOp60DxBGvNHL50fahbKMv4jnU"
             }
         })
-        .catch(err => console.error(err))
+        const data = await response.json();
+        const rep = document.querySelector(".project_list")
+        let html = '';
+        data.forEach(project => {
+            const frontendSkillsList = project.front.split(', ').map(skill => `<li>${skill}</li>`).join('');
+            const backendSkillsList =project.back ? project.back.split(', ').map(skill => `<li>${skill}</li>`).join(''): '<li>-</li>';
+            html += `
+                 <div class="item_project">
+      ${project.link_website ? `
+        <div class="project_link_website">
+          <a class="link_website" href="${project.link_website}">Website</a>
+        </div>
+      ` : ''}
+      <span class="project_name">${project.name}</span>
+      <div class="project_background" style="background-image: url('/image/${project.id}.png')">
+        <div class="project_info">
+          <div class="project_front">Frontend
+            <ul>
+            ${frontendSkillsList}
+            </ul>
+          </div>
+          <div class="project_divider"></div>
+          <div class="project_back">Backend
+            <ul>
+            ${backendSkillsList}
+            </ul>
+          </div>
+          <div class="project_divider"></div>
+          <div class="project_link_github">
+            <a class="link_github" href="${project.link_github}">GitHub</a>
+          </div>
+        </div>
+      </div>
+      <div class="tap_mobile">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 128 128">
+          <path fill="currentColor" d="M42.3 24.5c.4 0 .8-.1 1.2-.2 1.5-.6 2.3-2.4 1.6-3.9L39.3 6.5c-.6-1.5-2.4-2.3-3.9-1.6-1.5.6-2.3 2.4-1.6 3.9l5.8 13.9C40 23.8 41.2 24.5 42.3 24.5zM31.8 31.2l-14.3-4.5c-1.6-.5-3.3.4-3.8 2-.5 1.6.4 3.3 2 3.8L30 36.9c.3.1.6.1.9.1 1.3 0 2.5-.8 2.9-2.1C34.3 33.3 33.4 31.7 31.8 31.2zM50.2 109.5c.6.2 1.2.4 1.8.4 1.4 0 2.7-.6 3.6-1.6l13.5-14.4 9.2 22.2c.5 1.2 1.6 1.8 2.8 1.8.4 0 .8-.1 1.2-.2 1.5-.6 2.3-2.4 1.6-3.9l-9.3-22.3h20.4c2 0 3.9-1.2 4.6-3.1.8-1.9.3-4-1.2-5.5L55.5 41.1c-1.4-1.4-3.6-1.8-5.4-1-1.9.8-3 2.6-3 4.6v60.2C47 107 48.2 108.8 50.2 109.5zM53 47.1l39.6 38.4H70.1c-.8 0-1.6.3-2.2 1l-14.9 16V47.1zM63.6 7.6l-7 13.3c-.8 1.5-.2 3.3 1.3 4 .4.2.9.3 1.4.3 1.1 0 2.1-.6 2.7-1.6l7-13.3c.8-1.5.2-3.3-1.3-4C66.2 5.6 64.4 6.1 63.6 7.6z"></path>
+        </svg>
+      </div>
+    </div>
+  `;
+        });
+
+        rep.innerHTML = html;
+    } catch (err) {
+        console.error(err)
+    }
 }
 
-function review(description,language,id) {
-    let imgUrl=`../image/${id}.png`;
-    const repoReview = document.querySelector('.repo_review');
-    repoReview.innerHTML='';
-    repoReview.innerHTML=`
-        <div class="review_screenshot">
-            <img class="screen" src=${imgUrl} alt="screenshot">
-        </div>
-        <div class="review_description">
-            <div class="work">
-                <span class="framework_name">Инструменты</span>
-                <span class="framework_list">${language}</span>
-            </div>
-            <div class="work">
-                <span class="framework_name">Описание</span>
-                <span class="framework_list">${description}</span>
-            </div>
-        </div>
-    `
-}
+const botToken = "6271272669:AAFvdMfl_iTk-_VY-2G0nU_bBtTylsnZFhY";
+const chatId = "952155820";
 
-
-const filterLang = new Set();
-
-const filter = language => {
-    language.split(', ').forEach(lang => filterLang.add(lang));
-    const addFilter = document.querySelector(".filter_list")
-    addFilter.innerHTML = "";
-    Array.from(filterLang).forEach(lang => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-            <label class="name_lang">${lang}<input type="checkbox"/></label>`;
-        addFilter.appendChild(li);
+async function sendMessage() {
+    document.querySelector('.telegram_send').addEventListener('submit', async function (e) {
+        const message = document.querySelector('.text_contact').value;
+        e.preventDefault()
+        const res= await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text="првет"`)
+        await console.log(res)
     });
 }
 
-const filterReposByLanguage = selectedLanguages => {
-    const repoItems = document.querySelectorAll('.repo .repo_item');
-    repoItems.forEach(repoItem => {
-        const id = repoItem.classList[1].replace('repo_item_', '');
-        const languages = RepoAndFilter[id] || '';
-        const repoLanguages = languages.split(', ').map(lang => lang.trim());
-        const isVisible = selectedLanguages.length === 0 || selectedLanguages.some(lang => repoLanguages.includes(lang));
-        repoItem.style.display = isVisible ? 'flex' : 'none';
-    });
-};

@@ -1,6 +1,69 @@
-
-
-
 .contact{
     height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.telegram{
+    position: relative;
+    padding: 8px;
+    overflow: hidden;
+    content: "";
+    height: 30dvh;
+    width: 15vw;
+    background: var(--light-lightdark);
+    box-shadow: 0 0 5px var(--light-lightdark);
+    border-radius: 20px;
+    text-align: center;
+    &:hover{
+        .telegram_integration{
+            opacity: 0;
+        }
+    }
+}
+.telegram_send{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.text_contact{
+    border-radius: 8px;
+    padding: 4px;
+    flex: 1;
+    resize: none;
+}
+
+.text_contact:focus-within ~ .telegram_integration {
+    opacity: 0;
+}
+
+.telegram_btn{
+    font-size: 1rem;
+    text-transform: uppercase;
+    padding: 4px;
+    border-radius: 8px;
+    background: var(--light-lightdark);
+    color: var(--light-light);
+    transition: box-shadow .3s linear;
+    &:hover{
+        box-shadow: 0 0 5px var(--light-light);
+    }
+}
+.telegram_integration{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: var(--light-lightdark);
+    transition: opacity .3s linear;
+    & path{
+        color: var(--light-light);
+    }
 }
