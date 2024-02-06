@@ -21,7 +21,7 @@ async function getRepositories() {
                  <div class="item_project">
       ${project.link_website ? `
         <div class="project_link_website">
-          <a class="link_website" href="${project.link_website}">Website</a>
+          <a target="_blank" class="link_website" href="${project.link_website}">Website</a>
         </div>
       ` : ''}
       <span class="project_name">${project.name}</span>
