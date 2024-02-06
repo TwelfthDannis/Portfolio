@@ -67,3 +67,12 @@
         color: var(--light-light);
     }
 }
+
+@media screen and (max-width:900px){
+    .contact{
+        padding: 8px;
+    }
+    .telegram{
+        width: 100%;
+    }
+}
