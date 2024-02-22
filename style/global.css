@@ -13,6 +13,10 @@
     font-family: 'Roboto', sans-serif;
 }
 
+section{
+    height: 100dvh;
+}
+
 a{
     text-decoration: none;
 }

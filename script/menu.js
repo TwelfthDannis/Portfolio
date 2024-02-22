@@ -1,10 +1,10 @@
 
 document.addEventListener("DOMContentLoaded", function () {
-
+    hideMenuLinks()
 })
 
 //touch and scrool pages
-document.addEventListener('wheel', ProjectScreen);
+/*document.addEventListener('wheel',handleWheel);*/
 document.addEventListener('touchstart',handleTouchStart);
 document.addEventListener('touchend',handleTouchEnd);
 
@@ -39,10 +39,11 @@ function handleDirection(){
     }
 }
 
-function ProjectScreen(e){
-    if (e.deltaY > 0) {
-        gsap.to(".projectScreen", { opacity: 0, duration: 1 });
-    } else {
-        gsap.to(".projectScreen", { opacity: 1, duration: 1 });
-    }
+function hideMenuLinks() {
+    const currentSectionId = [...document.querySelectorAll('section')]
+        .find(sec => window.scrollY >= sec.offsetTop && window.scrollY < (sec.offsetTop + sec.offsetHeight)).id;
+
+    [...document.querySelectorAll('.nav_link')].forEach(link =>
+        link.parentElement.style.display = (link.getAttribute('href') === `#${currentSectionId}`) ? 'none' : 'block');
 }
+window.addEventListener('scroll', hideMenuLinks);

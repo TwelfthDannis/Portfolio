@@ -3,6 +3,8 @@
 .container {
     margin: auto;
     max-width: 1200px;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
 }
 
 .home {
