@@ -12,7 +12,7 @@ async function getRepositories() {
             <div class="item_project">
                 ${project.link_website ? `<div class="project_link_website"><a target="_blank" class="link_website" href="${project.link_website}">Website</a></div>` : ''}
                 <span class="project_name">${project.name}</span>
-                <div class="project_background" style="background-image: url('/image/${project.id}.png')">
+                <div class="project_background" style="background-image: url('/public/image/${project.id}.png')">
                     <div class="project_info">
                         <div class="project_front">Frontend<ul>${project.front.split(', ').map(skill => `<li>${skill}</li>`).join('')}</ul></div>
                         <div class="project_divider"></div>
