@@ -1,8 +1,9 @@
 {
   "name": "my-project",
   "version": "1.0.0",
+  "main": "bot.js",
   "scripts": {
-    "my-script": "node script/bot.js"
+    "start": "node script/bot.js"
   },
   "dependencies": {
     "telegraf": "^4.15.3"
