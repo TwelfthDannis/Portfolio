@@ -1,21 +1,16 @@
 
-.project{
-    min-height: 100dvh;
-    padding-block: 8px;
-    box-sizing: border-box;
+#project{
+    flex-direction: column;
+    gap: 1em;
+    justify-content: center;
 }
 
-.project_list{
-    justify-content: center;
-    display: flex;
-    gap: 1em;
-    flex-direction: column;
-    flex-wrap: wrap;
-}
 
 .item_project{
-    min-height: 20vh;
     display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 20vh;
     justify-content: space-between;
     position: relative;
     border-radius: 8px;
@@ -26,13 +21,7 @@
             transform: translate(-50%,50%);
             transition: transform .3s linear;
         }
-        .project_front{
-            transform: translateY(0);
-        }
-        .project_back{
-            transform: translateY(0);
-        }
-        .project_link_github{
+        .project_front,.project_back,.project_link_github{
             transform: translateY(0);
         }
         .project_divider{
@@ -42,11 +31,12 @@
 }
 
 .project_name{
+    font-size: 6vw;
     pointer-events: none;
     z-index: 1;
     color: transparent;
+    vertical-align: middle;
     font-family: 'Bebas Neue', sans-serif;
-    font-size:7vw;
     -webkit-text-stroke: 1px #333333;
     font-weight: 500;
     position: absolute;
@@ -87,17 +77,8 @@
     flex: 1;
     width: 100%;
     background-size: cover;
-    animation: project_back 20s linear infinite;
 }
 
-@keyframes project_back {
-    from{
-        background-position: bottom;
-    }
-    to{
-        background-position: top;
-    }
-}
 
 .project_info{
     overflow: hidden;

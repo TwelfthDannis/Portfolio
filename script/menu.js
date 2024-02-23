@@ -1,6 +1,8 @@
 
+
 document.addEventListener("DOMContentLoaded", function () {
     hideMenuLinks()
+    handleMessage()
 })
 
 //touch and scrool pages
