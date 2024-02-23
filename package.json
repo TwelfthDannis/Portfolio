@@ -2,7 +2,7 @@
   "name": "my-project",
   "version": "1.0.0",
   "scripts": {
-    "my-script": "node ../Portfolio/script/bot.js"
+    "my-script": "node script/bot.js"
   },
   "dependencies": {
     "telegraf": "^4.15.3"
