@@ -1,74 +1,56 @@
 
-
-.telegram{
-    position: relative;
-    padding: 8px;
-    overflow: hidden;
-    content: "";
-    height: 30dvh;
-    width: 15vw;
-    background: var(--light-lightdark);
-    box-shadow: 0 0 5px var(--light-lightdark);
-    border-radius: 20px;
-    text-align: center;
-    &:hover{
-        .telegram_integration{
-            opacity: 0;
-        }
-    }
-}
-.telegram_send{
-    height: 100%;
+.social{
     display: flex;
-    flex-direction: column;
     gap: .5rem;
-}
-
-.text_contact{
-    border-radius: 8px;
-    padding: 4px;
-    flex: 1;
-    resize: none;
-}
-
-.text_contact:focus-within ~ .telegram_integration {
-    opacity: 0;
-}
-
-.telegram_btn{
-    font-size: 1rem;
-    text-transform: uppercase;
-    padding: 4px;
-    border-radius: 8px;
-    background: var(--light-lightdark);
-    color: var(--light-light);
-    transition: box-shadow .3s linear;
-    &:hover{
-        box-shadow: 0 0 5px var(--light-light);
-    }
-}
-.telegram_integration{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background: var(--light-lightdark);
-    transition: opacity .3s linear;
-    & path{
-        color: var(--light-light);
-    }
-}
-
-@media screen and (max-width:900px){
-    .contact{
+    &>*{
         padding: 8px;
     }
-    .telegram{
-        width: 100%;
+}
+
+
+.telegram,.vk{
+    color: var(--light-light);
+    background: var(--light-lightdark);
+    border-radius: 20px;
+    text-align: center;
+    height: 100%;
+}
+
+.send{
+    overflow: hidden;
+    gap: .5rem;
+    display: flex;
+    flex: 1;
+}
+
+.send_text{
+    background: var(--light-lightdark);
+    box-shadow: 0 0 5px var(--light-lightdark);
+    color: var(--light-light);
+    border-radius: 8px;
+    height: 100%;
+    font-size:150%;
+    width: 250px;
+    padding-inline: 16px;
+    &:focus-visible{
+        outline: 0;
+    }
+    &::placeholder{
+        font-size: 1em;
+        font-weight: bold;
+    }
+}
+
+.send_message{
+    background: var(--light-lightdark);
+    color: var(--light-light);
+    font-size:100%;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 4px;
+    height: 100%;
+    width: 100px;
+    &:hover{
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
     }
 }
